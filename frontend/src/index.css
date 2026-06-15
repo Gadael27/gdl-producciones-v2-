@@ -1,4 +1,3 @@
-/* STREAMING_CHUNK: Importando Tailwind y fuentes */
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@300;400;600;800&display=swap');
 @import "tailwindcss";
 
@@ -18,82 +17,69 @@
   --font-body: 'Inter', sans-serif;
 }
 
-/* STREAMING_CHUNK: Reglas base del documento */
-body {
-margin: 0;
-background-color: var(--color-brand-dark);
-color: #ffffff;
-font-family: var(--font-body);
-overflow-x: hidden;
+:root {
+  --neon-pink: var(--color-brand-pink);
+  --neon-cyan: var(--color-brand-cyan);
+  --neon-yellow: var(--color-brand-yellow);
+  --bg-dark: #03030c;
+  --bg-card: #07071c;
+  --border-subtle: rgba(255,255,255,0.08);
 }
 
-/*
-STREAMING_CHUNK: Animaciones complejas personalizadas
-Nota: Mantenemos estas animaciones en CSS puro porque son muy
-específicas y es la forma más limpia de manejarlas.
-*/
+body {
+  margin: 0;
+  background-color: var(--color-brand-dark);
+  color: #ffffff;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
 
+.font-cyber { font-family: 'Bangers', cursive; letter-spacing: 2px; }
+.font-body { font-family: 'Inter', sans-serif; }
+
+/* Animaciones complejas personalizadas */
 @keyframes neonFlow {
-0% { background-position: 0% 50%; }
-100% { background-position: 200% 50%; }
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
 
 @keyframes glitch {
-0% { transform: translate(0); }
-20% { transform: translate(-2px, 2px); }
-40% { transform: translate(-2px, -2px); }
-60% { transform: translate(2px, 2px); }
-80% { transform: translate(2px, -2px); }
-100% { transform: translate(0); }
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
 }
 
 @keyframes eq {
-0%, 100% { height: 10%; }
-50% { height: 100%; }
+  0%, 100% { height: 10%; }
+  50% { height: 100%; }
 }
 
 @keyframes spin {
-from { transform: rotate(0deg); }
-to { transform: rotate(360deg); }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes waPulseNeon {
-0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
-70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
-100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+  70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
 }
 
 @keyframes laserLine {
-0% { transform: translateX(-100%) rotate(-25deg); opacity: 0; }
-20% { opacity: 0.6; }
-80% { opacity: 0.6; }
-100% { transform: translateX(200%) rotate(-25deg); opacity: 0; }
+  0% { transform: translateX(-100%) rotate(-25deg); opacity: 0; }
+  20% { opacity: 0.6; }
+  80% { opacity: 0.6; }
+  100% { transform: translateX(200%) rotate(-25deg); opacity: 0; }
 }
 
-/* STREAMING_CHUNK: Clases utilitarias globales */
-.glitch-hover:hover {
-animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-color: var(--color-brand-cyan);
+@keyframes neonPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 20px var(--neon-pink); }
+  50% { opacity: 0.8; box-shadow: 0 0 40px var(--neon-cyan); }
 }
 
-.laser-beam {
-position: absolute;
-width: 800px;
-height: 1px;
-background: linear-gradient(90deg, transparent, var(--color-brand-cyan), #fff, var(--color-brand-pink), transparent);
-box-shadow: 0 0 15px var(--color-brand-cyan);
-animation: laserLine 8s linear infinite;
-z-index: 2;
-pointer-events: none;
-}
-
-/* Scrollbar personalizada */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--color-brand-dark); }
-::-webkit-scrollbar-thumb { background: #1a1a3e; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-brand-pink); }
-
-/* STREAMING_CHUNK: Animaciones específicas de la Navbar */
 @keyframes neonFlicker {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.85; }
@@ -109,6 +95,161 @@ pointer-events: none;
   to { transform: translateY(0); opacity: 1; }
 }
 
+@layer components {
+  .form-card {
+    @apply bg-[#0a0a1a] border border-[var(--color-brand-cyan)] rounded-2xl p-6 shadow-[0_0_20px_rgba(0,242,254,0.1)];
+  }
+  .form-input {
+    @apply w-full bg-[#03030c] border border-white/20 text-white rounded-xl p-3 focus:border-[var(--color-brand-cyan)] focus:shadow-[0_0_15px_rgba(0,242,254,0.3)] focus:outline-none transition-all;
+  }
+  .form-label {
+    @apply block text-sm text-[#888] uppercase tracking-widest font-bold mb-2;
+  }
+  .btn-primary {
+    @apply w-full bg-gradient-to-br from-[var(--color-brand-cyan)] to-[var(--color-brand-purple)] text-white border-none rounded-xl py-4 font-bold uppercase tracking-widest cursor-pointer shadow-[0_8px_30px_rgba(0,242,254,0.4)] transition-all hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(0,242,254,0.6)];
+  }
+}
+
+/* Clases utilitarias globales */
+.glitch-hover:hover {
+  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+  color: var(--color-brand-cyan);
+}
+
+.laser {
+  position: absolute;
+  width: 800px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-brand-cyan), #fff, var(--color-brand-pink), transparent);
+  box-shadow: 0 0 15px var(--color-brand-cyan);
+  animation: laserLine 8s linear infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Aliases for backwards compatibility during migration */
+.laser-beam {
+  position: absolute;
+  width: 800px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-brand-cyan), #fff, var(--color-brand-pink), transparent);
+  box-shadow: 0 0 15px var(--color-brand-cyan);
+  animation: laserLine 8s linear infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.eq-bar {
+  width: 4px;
+  background: linear-gradient(to top, var(--neon-pink), var(--neon-cyan));
+  border-radius: 2px;
+  animation: eq 1s ease-in-out infinite;
+}
+.eq-bar:nth-child(1) { animation-duration: 0.8s; }
+.eq-bar:nth-child(2) { animation-duration: 1.1s; }
+.eq-bar:nth-child(3) { animation-duration: 0.9s; }
+.eq-bar:nth-child(4) { animation-duration: 1.2s; }
+.eq-bar:nth-child(5) { animation-duration: 0.7s; }
+
+.vinyl-spin { animation: spin 4s linear infinite; }
+.vinyl-spin-slow { animation: spin 8s linear infinite; }
+
+.neon-pulse { animation: neonPulse 3s ease-in-out infinite; }
+
+.glass-card {
+  background: rgba(7, 7, 28, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.glass-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 0, 127, 0.4);
+  box-shadow: 0 20px 40px rgba(255, 0, 127, 0.15);
+}
+
+.media-v2 {
+  position: relative; border-radius: 20px; overflow: hidden;
+  background: var(--bg-card); border: 1px solid var(--border-subtle);
+  transition: all 0.5s ease;
+}
+.media-v2:hover {
+  transform: scale(1.02);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 30px rgba(0, 242, 254, 0.2);
+}
+.media-v2 img, .media-v2 video {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.7s ease, filter 0.3s;
+  filter: saturate(0.85);
+}
+.media-v2:hover img, .media-v2:hover video {
+  transform: scale(1.1);
+  filter: saturate(1.2) contrast(1.1);
+}
+
+.video-play-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.3);
+  opacity: 0; transition: opacity 0.3s;
+  pointer-events: none;
+}
+.media-v2:hover .video-play-overlay {
+  opacity: 1;
+}
+
+.wa-float {
+  position: fixed; bottom: 30px; right: 30px;
+  background: #25d366; width: 64px; height: 64px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  z-index: 9999; cursor: pointer;
+  animation: waPulseNeon 2.5s infinite;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.wa-float:hover { transform: scale(1.15) translateY(-5px); background: #20ba5a; }
+
+.genre-tag {
+  padding: 10px 20px; border-radius: 50px; cursor: pointer;
+  border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.03);
+  transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
+  font-weight: 600; font-size: 0.9rem;
+}
+.genre-tag.active {
+  background: rgba(255, 0, 127, 0.15); border-color: var(--neon-pink);
+  color: var(--neon-pink); box-shadow: 0 0 20px rgba(255, 0, 127, 0.2);
+}
+
+.playlist-item {
+  display: flex; align-items: center; gap: 16px; padding: 16px 20px;
+  border-radius: 16px; border: 1px solid var(--border-subtle);
+  background: rgba(255,255,255,0.02); margin-bottom: 12px;
+  transition: all 0.3s ease; cursor: pointer;
+}
+.playlist-item:hover {
+  background: rgba(255, 0, 127, 0.08); border-color: rgba(255, 0, 127, 0.3);
+  transform: translateX(8px);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.hero-section {
+  padding: 50px 20px 40px 20px;
+  box-sizing: border-box;
+}
+
+/* Animaciones específicas de la Navbar */
 .mobile-menu-enter {
   animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -134,4 +275,117 @@ pointer-events: none;
 
 .nav-link-item:hover::before {
   width: 100%;
-} 
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-brand-dark); }
+::-webkit-scrollbar-thumb { background: #1a1a3e; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-brand-pink); }
+
+@media (max-width: 990px) {
+  .hero-section {
+    padding-top: 80px !important;
+  }
+}
+@media (max-width: 768px) {
+  .hero-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+  .hero-title { font-size: 3.5rem !important; text-align: center !important; }
+  .hero-subtitle { text-align: center !important; }
+  .mobile-center {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .mobile-center p { margin-left: auto !important; margin-right: auto !important; text-align: center !important; }
+  .mobile-center-btns { justify-content: center !important; }
+  .hide-mobile { display: none !important; }
+  .grid-2 { grid-template-columns: 1fr !important; }
+  .grid-3 { grid-template-columns: 1fr !important; }
+  .masonry-grid { grid-template-columns: 1fr !important; }
+  .masonry-grid > div { grid-column: span 1 !important; grid-row: span 1 !important; height: 280px !important; }
+  .hero-title { font-size: 3.2rem !important; }
+  .section-title { font-size: 2.2rem !important; }
+  .hero-section { height: auto !important; min-height: 100vh; padding: 100px 20px 60px !important; display: flex !important; align-items: center !important; }
+  .wa-float { width: 56px; height: 56px; bottom: 20px; right: 20px; }
+}
+
+/* Scroll animations removed for performance */
+.reveal-on-scroll {
+  /* No-op class */
+}
+.reveal-delay-300 { transition-delay: 300ms; }
+
+/* Custom DatePicker Styles */
+.react-datepicker {
+  background-color: #0a0a1a !important;
+  border: 1px solid rgba(0, 242, 254, 0.3) !important;
+  font-family: 'Inter', sans-serif !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+}
+
+.react-datepicker__header {
+  background-color: #121230 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+}
+
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+  color: #fff !important;
+}
+
+.react-datepicker__day-name {
+  color: #888 !important;
+}
+
+.react-datepicker__day {
+  color: #ccc !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: rgba(0, 242, 254, 0.2) !important;
+  border-radius: 50% !important;
+}
+
+.react-datepicker__day--selected, .react-datepicker__day--keyboard-selected {
+  background-color: #00f2fe !important;
+  color: #000 !important;
+  border-radius: 50% !important;
+}
+
+.react-datepicker__day--disabled {
+  color: #444 !important;
+  background-color: #1a1a2e !important;
+  text-decoration: line-through !important;
+  cursor: not-allowed !important;
+}
+
+.react-datepicker__day--disabled:hover {
+  background-color: #1a1a2e !important;
+}
+
+.react-datepicker-time__header {
+  color: white !important;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item {
+  background-color: #0a0a1a !important;
+  color: white !important;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item:hover {
+  background-color: rgba(0, 242, 254, 0.2) !important;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
+  background-color: #00f2fe !important;
+  color: black !important;
+}
+
+.react-datepicker__time-list-item--disabled {
+  display: none !important;
+}

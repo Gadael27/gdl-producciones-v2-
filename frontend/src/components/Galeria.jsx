@@ -1,4 +1,3 @@
-import React from 'react';
 import { Play, Sparkles, Music, Zap } from 'lucide-react';
 
 export default function Galeria() {

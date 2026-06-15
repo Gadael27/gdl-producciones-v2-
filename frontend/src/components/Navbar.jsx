@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Store, BookOpen, Home, Settings, Menu, X } from 'lucide-react';
+import { Calendar, Store, BookOpen, Home, Menu, X, Package } from 'lucide-react';
 
-// URL temporal para el logo mientras conectas tus assets locales
-const miLogoOfficial = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=100&h=100&fit=crop';
+// Importamos el logo oficial desde assets
+import miLogoOfficial from '../assets/Logo.jpeg';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -31,14 +31,30 @@ export default function Navbar() {
   }, []);
 
   const navegar = (ruta) => {
-    navigate(ruta);
+    if (ruta.startsWith('/#')) {
+      navigate('/');
+      setTimeout(() => {
+        const id = ruta.replace('/#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      if (window.location.pathname === ruta) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        navigate(ruta);
+      }
+    }
     setIsMobileMenuOpen(false);
   };
 
   const navLinks = [
-    { id: 'inicio', label: 'Inicio', icon: <Home size={15} />, route: '/', color: 'text-brand-pink', hex: '#ff007f', glow: 'rgba(255,0,127,0.4)' },
-    { id: 'cabina', label: 'Compra tu Mesa de DJ', icon: <Store size={15} />, route: '/compra-tu-cabina', color: 'text-brand-yellow', hex: '#ffeb3b', glow: 'rgba(255,235,59,0.4)' },
-    { id: 'blog', label: 'Blog GD', icon: <BookOpen size={15} />, route: '/blog', color: 'text-brand-cyan', hex: '#00f2fe', glow: 'rgba(0,242,254,0.4)' },
+    { id: 'inicio', label: 'Inicio', icon: <Home size={15} />, route: '/', color: 'text-brand-pink', hex: 'var(--color-brand-pink)', glow: 'rgba(255,0,127,0.4)' },
+    { id: 'paquetes', label: 'Paquetes', icon: <Package size={15} />, route: '/paquetes', color: 'text-brand-cyan', hex: 'var(--color-brand-cyan)', glow: 'rgba(0,242,254,0.4)' },
+    { id: 'cabina', label: 'Compra tu Mesa', icon: <Store size={15} />, route: '/compra-tu-cabina', color: 'text-brand-yellow', hex: 'var(--color-brand-yellow)', glow: 'rgba(255,235,59,0.4)' },
+    { id: 'blog', label: 'Blog GD', icon: <BookOpen size={15} />, route: '/blog', color: 'text-brand-pink', hex: 'var(--color-brand-pink)', glow: 'rgba(255,0,127,0.4)' },
   ];
 
   return (
@@ -74,7 +90,7 @@ export default function Navbar() {
             </div>
             {!isMobile && (
               <div className="text-white font-cyber text-2xl tracking-[2px] drop-shadow-[0_0_20px_rgba(255,0,127,0.5)] flex items-center gap-2">
-                GD <span className="text-brand-pink">PRODUCCIONES</span>
+                GUSTAVO DELGADILLO <span className="text-brand-pink">- DJ</span>
                 {/* Mini equalizer animado */}
                 <div className="flex gap-[2px] h-4 items-end ml-1">
                   <div className="eq-bar-nav" />
@@ -99,8 +115,8 @@ export default function Navbar() {
                   onClick={() => navegar(link.route)}
                   onMouseEnter={() => setHoveredLink(link.id)}
                   onMouseLeave={() => setHoveredLink(null)}
-                  className={`nav-link-item flex items-center gap-2 font-body text-[0.85rem] font-semibold px-4 py-2 rounded-full transition-all duration-300 uppercase tracking-widest cursor-pointer ${hoveredLink === link.id ? link.color : 'text-[#bbb]'}`}
-                  style={{ color: hoveredLink === link.id ? link.hex : '#bbb' }}
+                  className={`nav-link-item flex items-center gap-2 font-body text-[1.1rem] font-extrabold px-4 py-2 rounded-full transition-all duration-300 uppercase tracking-widest cursor-pointer ${hoveredLink === link.id ? link.color : 'text-gray-200 hover:text-white'}`}
+                  style={{ color: hoveredLink === link.id ? link.hex : '' }}
                 >
                   <span style={{ 
                     color: link.hex, 
@@ -127,14 +143,7 @@ export default function Navbar() {
               {isMobile ? 'RESERVAR' : 'RESERVAR FECHA'}
             </button>
 
-            {/* Panel Admin con glow sutil */}
-            <div 
-              onClick={() => navegar('/admin')}
-              className={`rounded-xl bg-brand-card/80 border border-brand-pink/30 flex items-center justify-center text-brand-pink cursor-pointer transition-all duration-300 box-border backdrop-blur-md hover:border-brand-pink hover:shadow-[0_0_20px_rgba(255,0,127,0.5),inset_0_0_10px_rgba(255,0,127,0.1)] hover:rotate-90 ${isMobile ? 'w-9 h-9' : 'w-10 h-10'}`}
-              title="Panel de Control Interno"
-            >
-              <Settings size={isMobile ? 16 : 18} />
-            </div>
+
 
             {/* Hamburguesa móvil con animación */}
             {isMobile && (
@@ -158,7 +167,7 @@ export default function Navbar() {
               <img src={miLogoOfficial} alt="Logo" className="w-full h-full object-contain rounded-full" />
             </div>
             <div className="font-cyber text-xl text-white tracking-[2px]">
-              GD <span className="text-brand-pink">PRODUCCIONES</span>
+              GUSTAVO DELGADILLO <span className="text-brand-pink">- DJ</span>
             </div>
           </div>
 

@@ -1,226 +1,455 @@
-import React, { useState } from 'react';
+import { useState, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { 
-  Truck, ArrowRight, ShieldCheck, Play, Sparkles, 
-  Music, Zap, Disc, Headphones, Star, MapPin, 
-  ChevronRight, Volume2, PartyPopper
+  ArrowRight, Play, Sparkles, 
+  Music, Zap, Disc, Headphones, 
+  ChevronRight, Volume2
 } from 'lucide-react';
-import Galeria from '../components/Galeria';
 
-// Importaciones comentadas para tu entorno real
-// import heroBackground from '../assets/hero.png';
-// import showLasers from '../assets/40e7af3d-94f8-418e-bfe0-6e7f11e86996.jpg';
-// import escenarioGalactus from '../assets/Cabina DJ Blanca Diamante Frente.jpeg';
-// import cabinaDenonPista from '../assets/AE69E51A-CF1E-409E-8899-B4E2D45FB79F.jpg';
-// import consolaCloseup from '../assets/BB8F1BA0-38B6-4B43-8F62-B3A346AB7D5C.jpg';
+import Footer from '../components/Footer';
+import GoogleReviews from '../components/GoogleReviews';
+import ServicesSection from '../components/ServicesSection';
 
-// URLs de reemplazo para previsualización
-const heroBackground = 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1920&auto=format&fit=crop';
-const showLasers = 'https://images.unsplash.com/photo-1549451371-64aa98a6f660?q=80&w=800&auto=format&fit=crop';
-const escenarioGalactus = 'https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?q=80&w=800&auto=format&fit=crop';
-const cabinaDenonPista = 'https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?q=80&w=800&auto=format&fit=crop';
-const consolaCloseup = 'https://images.unsplash.com/photo-1598387993281-cecf8b71a8f8?q=80&w=800&auto=format&fit=crop';
+// 📸 GALERÍA COMPLETA DE FOTOS REALES DEL PROYECTO
+import heroBackground from '../assets/hero.png';
+import showLasers from '../assets/40e7af3d-94f8-418e-bfe0-6e7f11e86996.jpg';
+import disparoCo2 from '../assets/160523.jpg';
+import cabinaDenonPista from '../assets/AE69E51A-CF1E-409E-8899-B4E2D45FB79F.jpg';
+import escenarioGalactus from '../assets/Cabina DJ Blanca Diamante Frente.jpeg';
+import setupJardin from '../assets/IMG_4921.JPG';
+import consolaCloseup from '../assets/BB8F1BA0-38B6-4B43-8F62-B3A346AB7D5C.jpg';
+import consolaDJ from '../assets/IMG_4911.JPG';
+import setupExterior2 from '../assets/IMG_5401.JPG';
+import setupExterior3 from '../assets/IMG_5404.JPG';
 
-const BotonPrimario = ({ texto, onClick, icono }) => (
-  <button 
-    onClick={onClick}
-    className="bg-gradient-to-r from-brand-pink to-[#bd00ff] text-white px-9 py-4 rounded-full text-lg font-extrabold flex items-center gap-2 shadow-[0_10px_30px_rgba(255,0,127,0.4)] hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(255,0,127,0.6)] transition-all duration-300 tracking-wide cursor-pointer border-none"
-  >
-    {texto} {icono}
-  </button>
-);
+// 🎥 VIDEOS DEL PROYECTO
+import videoShowUrl from '../assets/IMG_5404.MP4?url';
+import videoGenteBailando from '../assets/IMG_2958.MOV?url';
+import videoConsolaYBailando from '../assets/FE8097BE-2C22-4D19-89BA-407922426329.mp4?url';
 
-const BotonSecundario = ({ texto, onClick, icono }) => (
-  <button 
-    onClick={onClick}
-    className="bg-white/5 text-white border border-white/20 px-9 py-4 rounded-full text-lg font-semibold flex items-center gap-2 backdrop-blur-md hover:bg-white/10 hover:border-white transition-all duration-300 cursor-pointer"
-  >
-    {icono} {texto}
-  </button>
-);
 
-const TituloSeccion = ({ texto1, textoResaltado, colorResalte = "text-brand-pink" }) => (
-  <h2 className="font-cyber text-4xl md:text-5xl mb-4 text-center">
-    {texto1} <span className={colorResalte}>{textoResaltado}</span>
-  </h2>
-);
 
 export default function Home() {
   const [activeGenre, setActiveGenre] = useState('reggaeton');
+  const [playingSet, setPlayingSet] = useState(null);
+  const audioRef = useRef(null);
 
-  // Funciones de utilidad
+  const toggleSet = (idx) => {
+    if (playingSet === idx) {
+      audioRef.current.pause();
+      setPlayingSet(null);
+    } else {
+      setPlayingSet(idx);
+      // Wait for React to update the audio src, then play
+      setTimeout(() => {
+        if (audioRef.current) {
+          audioRef.current.play().catch(e => console.log('Error reproduciendo audio', e));
+        }
+      }, 50);
+    }
+  };
+
   const irACotizar = (tipoPaquete) => {
-    // Usaremos React Router en el futuro, por ahora mantenemos window.location
     window.location.href = `/cotizacion?paquete=${tipoPaquete}`;
   };
 
   const abrirWhatsApp = () => {
     const tuNumeroWhatsapp = "525567880698"; 
-    const mensaje = encodeURIComponent("¡Hola, GD Producciones! Me interesa cotizar un evento.");
-    window.open(`https://wa.me/${tuNumeroWhatsapp}?text=${mensaje}`, '_blank');
+    const mensajePredeterminado = encodeURIComponent("¡Hola, GD Producciones! Me interesa cotizar un evento fuera de la CDMX y agendar una producción especial.");
+    const linkCompletoWA = `https://wa.me/${tuNumeroWhatsapp}?text=${mensajePredeterminado}`;
+    window.open(linkCompletoWA, '_blank', 'noopener,noreferrer');
   };
 
+
+
   const genres = [
-    { id: 'reggaeton', name: 'Reggaetón', icon: <Music size={16} />, color: 'text-brand-pink', bg: 'bg-brand-pink', border: 'border-brand-pink', shadow: 'shadow-brand-pink' },
-    { id: 'electronic', name: 'Electrónica', icon: <Zap size={16} />, color: 'text-brand-cyan', bg: 'bg-brand-cyan', border: 'border-brand-cyan', shadow: 'shadow-brand-cyan' },
-    { id: 'cumbia', name: 'Cumbia/Banda', icon: <Disc size={16} />, color: 'text-brand-yellow', bg: 'bg-brand-yellow', border: 'border-brand-yellow', shadow: 'shadow-brand-yellow' },
-    { id: 'open', name: 'Formato Abierto', icon: <Sparkles size={16} />, color: 'text-[#bd00ff]', bg: 'bg-[#bd00ff]', border: 'border-[#bd00ff]', shadow: 'shadow-[#bd00ff]' },
+    { id: 'reggaeton', name: 'Reggaetón', icon: <Music size={16} />, color: 'var(--color-brand-pink)' },
+    { id: 'electronic', name: 'Electrónica', icon: <Zap size={16} />, color: 'var(--color-brand-cyan)' },
+    { id: 'cumbia', name: 'Cumbia/Banda', icon: <Disc size={16} />, color: 'var(--color-brand-yellow)' },
+    { id: 'rock', name: 'Rock/Indie', icon: <Headphones size={16} />, color: '#ff5e00' },
+    { id: 'open', name: 'Formato Abierto', icon: <Sparkles size={16} />, color: '#bd00ff' },
+  ];
+
+
+
+  const sets = [
+    { title: "Set Reggaetón Old School", duration: "45 min", plays: "2.4k", color: "var(--color-brand-pink)", audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { title: "Electro House Fiesta", duration: "60 min", plays: "1.8k", color: "var(--color-brand-cyan)", audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { title: "Cumbia Remix En Vivo", duration: "50 min", plays: "3.1k", color: "var(--color-brand-yellow)", audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
   ];
 
   return (
-    <div className="bg-brand-dark text-white min-h-screen font-body overflow-x-hidden relative">
+    <div className="bg-[#03030c] min-h-screen text-white font-body overflow-x-hidden relative">
+      <Helmet>
+        <title>Gustavo Delgadillo - DJ en CDMX y Todo México | Audio Profesional</title>
+        <meta name="description" content="Contrata al mejor DJ para tu evento de música, boda o fiesta corporativa. Servicio de sonido, iluminación y renta de cabinas DJ en CDMX, Estado de México y foráneos." />
+        <meta name="keywords" content="DJ Gustavo Delgadillo, evento de musica, Sonido, renta de audio, DJ para bodas CDMX, cabinas DJ" />
+      </Helmet>
+
+      <audio 
+        ref={audioRef} 
+        src={playingSet !== null ? sets[playingSet].audioSrc : undefined} 
+        loop 
+        style={{ display: 'none' }} 
+      />
       
-      {/* Botón Flotante de WhatsApp Componentizado */}
+      
+
+      {/* 🟢 BOTÓN FLOTANTE WA */}
       <button 
         onClick={abrirWhatsApp}
-        className="fixed bottom-8 right-8 bg-[#25d366] w-16 h-16 rounded-full flex items-center justify-center z-50 cursor-pointer shadow-lg hover:scale-110 hover:-translate-y-1 transition-transform duration-300 border-none [animation:waPulseNeon_2.5s_infinite]"
-        title="Contactar por WhatsApp"
+        className="wa-float border-none cursor-pointer p-0" title="Contactar por WhatsApp"
       >
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
         </svg>
       </button>
 
-      {}
-      <section id="inicio" className="relative min-h-screen flex items-center px-5 py-24 bg-cover bg-center overflow-hidden" style={{ backgroundImage: `linear-gradient(to bottom, rgba(3,3,12,0.3) 0%, rgba(3,3,12,0.7) 50%, #03030c 100%), url(${heroBackground})` }}>
+      {/* 🌌 HERO SECTION EN TAILWIND */}
+      <div id="inicio" className="relative min-h-screen flex items-center bg-cover bg-center overflow-hidden pt-24 pb-16 md:py-0" style={{ 
+        backgroundImage: 'linear-gradient(to bottom, rgba(3,3,12,0.3) 0%, rgba(3,3,12,0.7) 50%, #03030c 100%), url(' + heroBackground + ')'
+      }}>
+        <div className="laser top-[30%]" />
+        <div className="laser top-[60%]" style={{ animationDelay: '4s', background: 'linear-gradient(90deg, transparent, var(--color-brand-pink), #fff, transparent)' }} />
         
-        {/* Efectos Láser de fondo (Usan CSS puro desde index.css) */}
-        <div className="laser-beam top-[30%] bg-gradient-to-r from-transparent via-brand-cyan to-transparent" />
-        <div className="laser-beam top-[60%] [animation-delay:4s] bg-gradient-to-r from-transparent via-brand-pink to-transparent" />
-        
-        <div className="max-w-6xl mx-auto w-full relative z-10 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="absolute rounded-full opacity-30" style={{
+              width: `${4 + i * 2}px`, height: `${4 + i * 2}px`,
+              background: i % 2 === 0 ? 'var(--color-brand-pink)' : 'var(--color-brand-cyan)',
+              left: `${15 + i * 15}%`,
+              top: `${20 + (i % 3) * 25}%`,
+              boxShadow: `0 0 20px ${i % 2 === 0 ? 'var(--color-brand-pink)' : 'var(--color-brand-cyan)'}`,
+              animation: `float ${5 + i}s ease-in-out infinite alternate`
+            }} />
+          ))}
+        </div>
+
+        <div className="max-w-[1100px] mx-auto w-full px-4 md:px-8 relative z-20 grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
           
-          {/* Textos del Hero */}
-          <div>
-            <div className="inline-flex items-center gap-2 bg-brand-pink/10 border border-brand-pink/30 px-5 py-2.5 rounded-full mb-4 text-sm font-bold tracking-widest backdrop-blur-sm">
-              <Sparkles size={14} className="text-brand-yellow" /> FORMATO ABIERTO • MEZCLA EN VIVO
-            </div>
-            
-            <h2 className="font-cyber text-3xl text-brand-cyan tracking-wide uppercase mb-2">
-              Gustavo Delgadillo - DJ
+          <div className="text-center md:text-left flex flex-col items-center md:items-start">
+            <span className="sr-only">Gustavo Delgadillo - DJ de eventos de música y Sonido Profesional</span>
+
+            <h2 className="font-cyber text-[2.5rem] mb-4 text-[var(--color-brand-cyan)] tracking-wider uppercase leading-tight">
+              DJ GUSTAVO DELGADILLO
             </h2>
-            
-            <h1 className="font-cyber text-6xl md:text-[5.5rem] leading-none mb-0 text-white drop-shadow-[0_0_40px_rgba(255,0,127,0.5)] glitch-hover cursor-default">
+
+            <div className="inline-flex items-center gap-2.5 bg-[#ff007f1a] border border-[#ff007f4d] px-4 py-2 rounded-full mb-6 text-white text-[0.75rem] font-bold tracking-wider backdrop-blur-md">
+              <Sparkles size={12} color="var(--color-brand-yellow)" /> FORMATO ABIERTO • MEZCLA EN VIVO
+            </div>
+
+            <h1 className="font-cyber text-[5.5rem] m-0 leading-[0.95] text-white drop-shadow-[0_0_40px_rgba(255,0,127,0.5)] cursor-default glitch-hover">
               LA FIESTA<br />
-              <span className="text-brand-pink">NO PARA</span>
+              <span className="text-[var(--color-brand-pink)]">NO PARA</span>
             </h1>
-            
-            <p className="text-xl text-gray-300 max-w-lg my-6 leading-relaxed font-light">
+
+            <p className="text-[1.1rem] text-[#ccc] max-w-[500px] my-6 leading-relaxed font-light mx-auto md:mx-0">
               Bodas, XV años y eventos corporativos que nadie olvida. 
-              Producción audiovisual masiva, consolas HiFi e iluminación robótica sincronizada.
+              El mejor sonido e iluminación robótica sincronizada para tu evento de música.
             </p>
-            
-            {/* Usando los componentes de botones limpios */}
-            <div className="flex flex-wrap gap-4 mt-8">
-              <BotonPrimario 
-                texto="COTIZAR MI EVENTO" 
-                icono={<ArrowRight size={20} />} 
-                onClick={() => irACotizar('Base')} 
-              />
-              <BotonSecundario 
-                texto="WHATSAPP" 
-                icono={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>} 
-                onClick={abrirWhatsApp} 
-              />
+
+            <div className="flex gap-4 flex-wrap justify-center md:justify-start">
+              <button onClick={() => irACotizar('Base')} className="bg-gradient-to-br from-[var(--color-brand-pink)] to-[#bd00ff] text-white border-none px-9 py-[18px] rounded-full text-[1.1rem] font-extrabold cursor-pointer inline-flex items-center gap-2.5 shadow-[0_10px_30px_rgba(255,0,127,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(255,0,127,0.6)] tracking-wider">
+                COTIZAR MI EVENTO <ArrowRight size={20} />
+              </button>
+              
+              <button 
+                onClick={abrirWhatsApp}
+                className="bg-white/5 text-white border border-white/20 px-9 py-[18px] rounded-full text-[1.1rem] font-semibold no-underline inline-flex items-center gap-2.5 backdrop-blur-md transition-all duration-300 cursor-pointer hover:bg-white/10 hover:border-white">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                WHATSAPP
+              </button>
+            </div>
+
+            <div className="mt-10 flex gap-8 items-center justify-center md:justify-start">
+              <div className="flex gap-1 h-8 items-end">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="eq-bar h-full" />
+                ))}
+              </div>
+              <span className="text-[#888] text-[0.9rem] font-medium">
+                Escuchando ahora: <span className="text-[var(--color-brand-cyan)]">Set En Vivo - GD Producciones</span>
+              </span>
             </div>
           </div>
 
-          {}
           <div className="hidden md:flex relative justify-center">
-            {/* Vinil Girando */}
-            <div className="w-80 h-80 rounded-full bg-[conic-gradient(from_0deg,#ff007f,#00f2fe,#ffeb3b,#ff007f)] p-1 shadow-[0_0_60px_rgba(255,0,127,0.3)] relative">
-              <div 
-                className="w-full h-full rounded-full bg-cover bg-center relative overflow-hidden [animation:spin_8s_linear_infinite]"
-                style={{ backgroundImage: `url(${escenarioGalactus})` }}
-              >
+            <div className="w-[320px] h-[320px] rounded-full p-1 relative shadow-[0_0_60px_rgba(255,0,127,0.3)] bg-[conic-gradient(from_0deg,var(--color-brand-pink),var(--color-brand-cyan),var(--color-brand-yellow),var(--color-brand-pink))]">
+              <div className="w-full h-full rounded-full relative overflow-hidden vinyl-spin-slow" style={{ background: 'url(' + consolaDJ + ') center/cover' }}>
                 <div className="absolute inset-0 bg-[repeating-radial-gradient(circle_at_center,transparent_0,transparent_10px,rgba(0,0,0,0.3)_10px,rgba(0,0,0,0.3)_12px)]" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-brand-dark border-2 border-white/20 flex items-center justify-center">
-                  <Disc size={32} className="text-brand-pink" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#03030c] border-2 border-white/20 flex items-center justify-center">
+                  <Disc size={32} color="var(--color-brand-pink)" />
                 </div>
               </div>
             </div>
             
-            {/* Tarjetas flotantes */}
-            <div className="absolute top-5 right-0 bg-brand-card/80 backdrop-blur-md border border-brand-cyan/30 rounded-2xl p-4 shadow-2xl">
-              <div className="text-3xl font-extrabold text-brand-cyan">500+</div>
-              <div className="text-xs text-gray-400">Eventos realizados</div>
+            <div className="absolute top-5 right-0 bg-[#07071c]/80 backdrop-blur-md border border-[var(--color-brand-cyan)]/30 rounded-2xl px-5 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+              <div className="text-[1.8rem] font-extrabold text-[var(--color-brand-cyan)]">500+</div>
+              <div className="text-[0.8rem] text-[#aaa]">Eventos realizados</div>
             </div>
             
-            <div className="absolute bottom-10 left-0 bg-brand-card/80 backdrop-blur-md border border-brand-pink/30 rounded-2xl p-4 shadow-2xl">
-              <div className="text-3xl font-extrabold text-brand-pink">10+</div>
-              <div className="text-xs text-gray-400">Años de experiencia</div>
+            <div className="absolute -bottom-10 left-0 bg-[#07071c]/80 backdrop-blur-md border border-[var(--color-brand-pink)]/30 rounded-2xl px-5 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+              <div className="text-[1.8rem] font-extrabold text-[var(--color-brand-pink)]">10+</div>
+              <div className="text-[0.8rem] text-[#aaa]">Años de experiencia</div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+      {/* FIN HERO SECTION */}
 
-      {}
-      <section className="max-w-6xl mx-auto px-5 py-24">
-        <TituloSeccion texto1="¿QUÉ SUENA EN TU" textoResaltado="FIESTA?" colorResalte="text-brand-pink" />
-        <p className="text-gray-400 text-lg text-center mb-12">
-          Selecciona un género y descubre cómo transformamos la pista
-        </p>
+      <div className="max-w-[1200px] mx-auto px-5 w-full">
 
-        {/* Botones de Géneros */}
-        <div className="flex gap-3 justify-center flex-wrap mb-12">
-          {genres.map(g => {
-            const isActive = activeGenre === g.id;
-            return (
+        
+        {/* GÉNEROS EN TAILWIND */}
+        <div className="text-center my-[100px] md:mb-[60px]">
+          <h2 className="font-cyber text-[3rem] mb-[15px]">
+            ¿QUÉ SUENA EN TU <span className="text-[var(--color-brand-pink)]">FIESTA</span>?
+          </h2>
+          <p className="text-[#888] text-[1.1rem] mb-[40px]">
+            Selecciona un género y escucha cómo transformamos la pista
+          </p>
+          
+          <div className="flex gap-[12px] justify-center flex-wrap mb-[50px]">
+            {genres.map(g => (
               <button 
                 key={g.id}
                 onClick={() => setActiveGenre(g.id)}
-                className={`px-5 py-2.5 rounded-full cursor-pointer flex items-center gap-2 font-semibold text-sm transition-all duration-300 border
-                  ${isActive 
-                    ? `${g.color} ${g.bg}/10 ${g.border} shadow-[0_0_20px_rgba(var(--tw-shadow-color),0.2)] ${g.shadow}` 
-                    : 'text-gray-400 bg-white/5 border-white/10 hover:bg-white/10'
-                  }`}
+                className={`genre-tag ${activeGenre === g.id ? 'active' : ''}`}
+                style={{ color: activeGenre === g.id ? g.color : '#aaa' }}
               >
                 {g.icon} {g.name}
               </button>
-            )
-          })}
-        </div>
+            ))}
+          </div>
 
-        {}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-gradient-to-br from-brand-card to-[#0d0d2a] rounded-3xl p-10 border border-white/5 shadow-2xl">
-          <div>
-            <div className="flex items-center gap-2 mb-5">
-              <Volume2 size={24} className={genres.find(g => g.id === activeGenre)?.color} />
-              <span className={`font-bold text-sm tracking-widest uppercase ${genres.find(g => g.id === activeGenre)?.color}`}>
-                Reproduciendo ahora
-              </span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-gradient-to-br from-[#07071c] to-[#0d0d2a] rounded-[28px] p-10 border border-white/5">
+            <div className="text-left">
+              <div className="flex items-center gap-[10px] mb-[20px]">
+                <Volume2 size={24} color={genres.find(g => g.id === activeGenre)?.color || 'var(--color-brand-pink)'} />
+                <span className="font-bold text-[0.9rem] tracking-[2px] uppercase" style={{ 
+                  color: genres.find(g => g.id === activeGenre)?.color || 'var(--color-brand-pink)',
+                }}>
+                  Reproduciendo ahora
+                </span>
+              </div>
+              <h3 className="font-cyber text-[2.5rem] mb-[15px]">
+                {genres.find(g => g.id === activeGenre)?.name.toUpperCase()}
+              </h3>
+              <p className="text-[#aaa] leading-[1.7] text-[1.05rem] mb-[25px]">
+                {activeGenre === 'reggaeton' && "Desde el clásico hasta el perreo intenso. Transiciones perfectas que mantienen la pista prendida toda la noche."}
+                {activeGenre === 'electronic' && "House, Techno, EDM y Progressive. Beats que elevan la energía y crean momentos épicos en la pista."}
+                {activeGenre === 'cumbia' && "La esencia mexicana con toques modernos. Cumbia rebajada, sonidera y banda para todos los gustos."}
+                {activeGenre === 'rock' && "Alternativo, Indie, Clásicos en inglés y español. Para esos momentos de pura energía y nostalgia."}
+                {activeGenre === 'open' && "¿Por qué elegir uno solo? Mezclamos TODO en vivo. Del reggaetón al rock en segundos sin cortes abruptos."}
+              </p>
+              <div className="flex gap-[8px] h-[40px] items-end opacity-60">
+                {[...Array(12)].map((_, i) => (
+                  <div key={i} className="eq-bar w-[6px]" style={{ 
+                    animationDuration: `${0.5 + (i % 5) * 0.2}s`,
+                    background: genres.find(g => g.id === activeGenre)?.color || 'var(--color-brand-pink)'
+                  }} />
+                ))}
+              </div>
             </div>
             
-            <h3 className="font-cyber text-4xl mb-4">
-              {genres.find(g => g.id === activeGenre)?.name.toUpperCase()}
-            </h3>
-            
-            <p className="text-gray-400 leading-relaxed text-lg mb-6">
-              {activeGenre === 'reggaeton' && "Desde el clásico hasta el perreo intenso. Transiciones perfectas que mantienen la pista prendida toda la noche."}
-              {activeGenre === 'electronic' && "House, Techno, EDM y Progressive. Beats que elevan la energía y crean momentos épicos en la pista."}
-              {activeGenre === 'cumbia' && "La esencia mexicana con toques modernos. Cumbia rebajada, sonidera y banda para todos los gustos."}
-              {activeGenre === 'open' && "¿Por qué elegir uno solo? Mezclamos TODO en vivo. Del reggaetón al rock en segundos sin cortes abruptos."}
-            </p>
-          </div>
-          
-          <div className={`rounded-2xl overflow-hidden h-72 border-2 ${genres.find(g => g.id === activeGenre)?.border}/40 shadow-2xl`}>
-             <img 
+            <div className="rounded-[20px] overflow-hidden h-[300px] border-2 shadow-2xl transition-all duration-300" style={{ 
+              borderColor: `${genres.find(g => g.id === activeGenre)?.color || 'var(--color-brand-pink)'}40`,
+              boxShadow: `0 0 40px ${genres.find(g => g.id === activeGenre)?.color || 'var(--color-brand-pink)'}20`
+            }}>
+              <img 
                 src={activeGenre === 'electronic' ? showLasers : activeGenre === 'cumbia' ? escenarioGalactus : cabinaDenonPista} 
                 alt="DJ en acción" 
-                className="w-full h-full object-cover transition-all duration-500 hover:scale-110 hover:saturate-150"
+                className="w-full h-full object-cover transition-all duration-500"
               />
+            </div>
           </div>
         </div>
-      </section>
-    <Galeria/>
-      {}
-      <footer className="border-t border-white/5 py-12 mt-20 text-center">
-        <p className="text-gray-500 text-sm flex items-center justify-center gap-2">
-          <ShieldCheck size={16} className="text-[#25d366]" /> 
-          Pagos seguros • GD Producciones © {new Date().getFullYear()}
-        </p>
- 
-      </footer>
 
+        
+        {/* 🎥 GALERÍA MASONRY COMPLETA - SIN REPETIR FOTOS */}
+        <div id="galería" className="mb-[100px]">
+          <div className="text-center mb-[50px]">
+            <h2 className="font-cyber text-[3rem] m-0">
+              ASÍ SE VIVE LA <span className="text-[var(--color-brand-cyan)]">ENERGÍA</span>
+            </h2>
+            <p className="text-[#666] mt-[10px] text-[1.1rem]">
+              Producciones reales. Pistas llenas. Momentos épicos.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 auto-rows-[260px] gap-5">
+            {/* 1. Video Show Láser - Grande arriba izquierda */}
+            <div className="media-v2 md:col-span-2 md:row-span-1 relative rounded-2xl overflow-hidden bg-[#07071c] border border-white/10 transition-all duration-500 hover:scale-105 hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_30px_rgba(0,242,254,0.2)]">
+              <video src={videoShowUrl} autoPlay loop muted playsInline className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 saturate-[0.85] hover:saturate-125" />
+              <div className="absolute top-5 left-5 bg-[#ff007fe6] px-3.5 py-1.5 rounded-lg text-[0.8rem] font-bold flex items-center gap-1.5 z-10 text-white">
+                <Play size={12} fill="#fff" /> ILUMINACIÓN SYNCHRO
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-[30px] bg-gradient-to-t from-[#03030cf2] to-transparent z-10">
+                <h3 className="font-cyber text-[1.8rem] m-0">SHOW LASER EN VIVO</h3>
+                <p className="text-[#aaa] mt-[5px] text-[0.9rem]">Estructuras Truss con cabezas Beam programadas al ritmo</p>
+              </div>
+            </div>
+
+            {/* 2. Consola DJ (IMG_4911) - Derecha arriba */}
+            <div className="media-v2 md:row-span-2 relative rounded-2xl overflow-hidden bg-[#07071c] border border-white/10 transition-all duration-500 hover:scale-105 hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_30px_rgba(0,242,254,0.2)]">
+              <img src={consolaDJ} alt="Equipo de DJ profesional" className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 saturate-[0.85] hover:saturate-125" />
+              <div className="absolute bottom-0 left-0 right-0 p-[25px] bg-gradient-to-t from-[#03030cf2] to-transparent z-10">
+                <h4 className="font-cyber text-[1.5rem] text-[var(--color-brand-cyan)] m-0">EQUIPO PROFESIONAL</h4>
+                <p className="text-[#888] text-[0.85rem] mt-[5px]">Consolas digitales de última generación</p>
+              </div>
+            </div>
+
+            {/* 3. Setup Jardín (IMG_4921) */}
+            <div className="media-v2 relative rounded-2xl overflow-hidden bg-[#07071c] border border-white/10 transition-all duration-500 hover:scale-105 hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_30px_rgba(0,242,254,0.2)]">
+              <img src={setupJardin} alt="Montaje en jardín" className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 saturate-[0.85] hover:saturate-125" />
+              <div className="absolute bottom-0 left-0 right-0 p-[20px] bg-gradient-to-t from-[#03030cf2] to-transparent z-10">
+                <h4 className="font-cyber text-[1.3rem] text-[var(--color-brand-yellow)] m-0 flex items-center gap-[6px]">
+                  <Sparkles size={16} /> MONTAJE EXTERIOR
+                </h4>
+              </div>
+            </div>
+
+            {/* 4. Setup Exterior 2 (IMG_5401) */}
+            <div className="media-v2 relative rounded-2xl overflow-hidden bg-[#07071c] border border-white/10 transition-all duration-500 hover:scale-105 hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_30px_rgba(0,242,254,0.2)]">
+              <img src={setupExterior2} alt="Producción en exterior" className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 saturate-[0.85] hover:saturate-125" />
+              <div className="absolute bottom-0 left-0 right-0 p-[20px] bg-gradient-to-t from-[#03030cf2] to-transparent z-10">
+                <h4 className="font-cyber text-[1.3rem] text-white m-0 flex items-center gap-[6px]">
+                  <Music size={16} /> PRODUCCIÓN COMPLETA
+                </h4>
+              </div>
+            </div>
+
+            {/* 5. Video Gente Bailando (IMG_2958) - Grande medio */}
+            <div className="media-v2 md:col-span-2 md:row-span-2 relative rounded-2xl overflow-hidden bg-[#07071c] border border-white/10 transition-all duration-500 hover:scale-105 hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_30px_rgba(0,242,254,0.2)] group">
+              <video src={videoGenteBailando} autoPlay loop muted playsInline className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 saturate-[0.85] group-hover:saturate-125" />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none z-10">
+                <div className="w-[60px] h-[60px] rounded-full bg-[#ff007fe6] flex items-center justify-center">
+                  <Play size={28} fill="#fff" color="#fff" />
+                </div>
+              </div>
+              <div className="absolute top-5 right-5 bg-[#00f2fee6] px-3.5 py-1.5 rounded-lg text-[0.75rem] font-extrabold text-[#03030c] z-20 tracking-widest">
+                PISTA LLENA
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-[30px] bg-gradient-to-t from-[#03030cf2] to-transparent z-20">
+                <h3 className="font-cyber text-[2rem] m-0">LA GENTE NO PARA</h3>
+                <p className="text-[#aaa] mt-[5px] text-[0.9rem]">Ambiente real de pista de baile</p>
+              </div>
+            </div>
+
+            {/* 6. Setup Exterior 3 (IMG_5404) */}
+            <div className="media-v2 md:row-span-2 relative rounded-2xl overflow-hidden bg-[#07071c] border border-white/10 transition-all duration-500 hover:scale-105 hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_30px_rgba(0,242,254,0.2)]">
+              <img src={setupExterior3} alt="Montaje audiovisual" className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 saturate-[0.85] hover:saturate-125" />
+              <div className="absolute bottom-0 left-0 right-0 p-[20px] bg-gradient-to-t from-[#03030cf2] to-transparent z-10">
+                <h4 className="font-cyber text-[1.3rem] text-[var(--color-brand-pink)] m-0 flex items-center gap-[6px]">
+                  <Zap size={16} /> AUDIOVISUAL
+                </h4>
+              </div>
+            </div>
+
+            {/* 7. Video Consola + Gente (FE8097BE...) */}
+            <div className="media-v2 md:col-span-2 relative rounded-2xl overflow-hidden bg-[#07071c] border border-white/10 transition-all duration-500 hover:scale-105 hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_30px_rgba(0,242,254,0.2)] group">
+              <video src={videoConsolaYBailando} autoPlay loop muted playsInline className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 saturate-[0.85] group-hover:saturate-125" />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none z-10">
+                <div className="w-[50px] h-[50px] rounded-full bg-[#00f2fee6] flex items-center justify-center">
+                  <Play size={22} fill="#fff" color="#fff" />
+                </div>
+              </div>
+              <div className="absolute top-[15px] left-[15px] bg-[#ffeb3be6] px-2.5 py-1 rounded-md text-[0.7rem] font-extrabold text-[#03030c] z-20">
+                BEHIND THE DECKS
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-[20px] bg-gradient-to-t from-[#03030cf2] to-transparent z-20">
+                <h4 className="font-cyber text-[1.3rem] text-[var(--color-brand-yellow)] m-0 flex items-center gap-[6px]">
+                  <Music size={14} /> DESDE LA CONSOLA
+                </h4>
+              </div>
+            </div>
+
+            {/* 12. Disparo CO2 (160523) */}
+            <div className="media-v2 relative rounded-2xl overflow-hidden bg-[#07071c] border border-white/10 transition-all duration-500 hover:scale-105 hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_30px_rgba(0,242,254,0.2)]">
+              <img src={disparoCo2} alt="Efectos especiales CO2" className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 saturate-[0.85] hover:saturate-125" />
+              <div className="absolute bottom-0 left-0 right-0 p-[20px] bg-gradient-to-t from-[#03030cf2] to-transparent z-10">
+                <h4 className="font-cyber text-[1.3rem] text-[var(--color-brand-yellow)] m-0 flex items-center gap-[6px]">
+                  <Sparkles size={16} /> CO2 FX
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        {/* SETS EN TAILWIND */}
+        <div id="sets" className="mb-[100px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[60px] items-center">
+            <div>
+              <div className="flex items-center gap-[10px] text-[var(--color-brand-pink)] mb-[15px] font-bold tracking-[2px] text-[0.9rem]">
+                <Disc size={20} className="vinyl-spin" /> SETS RECIENTES
+              </div>
+              <h2 className="font-cyber text-[3rem] m-0 mb-[20px] leading-none">
+                ESCUCHA ANTES DE <span className="text-[var(--color-brand-cyan)]">CONTRATAR</span>
+              </h2>
+              <p className="text-[#aaa] leading-[1.7] mb-[30px] text-[1.05rem]">
+                Nuestros sets no son playlists automáticas. Son mezclas en vivo, 
+                leídas de la pista, con transiciones limpias y energía calculada.
+              </p>
+              
+              <div className="mt-[20px] flex flex-col gap-3">
+                {sets.map((set, idx) => (
+                  <div key={idx} className="flex items-center gap-4 p-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-[var(--color-brand-pink)]/10 hover:border-[var(--color-brand-pink)]/30 hover:translate-x-2 transition-all duration-300 cursor-pointer" onClick={() => toggleSet(idx)}>
+                    <div className="w-[48px] h-[48px] rounded-xl flex items-center justify-center shrink-0" style={{
+                      background: `linear-gradient(135deg, ${set.color}40, ${set.color}20)`,
+                      border: `1px solid ${set.color}60`,
+                      color: set.color
+                    }}>
+                      {playingSet === idx ? (
+                        <div className="flex gap-[3px] items-end h-[16px]">
+                          <div className="eq-bar w-1" style={{ background: set.color }} />
+                          <div className="eq-bar w-1" style={{ background: set.color, animationDelay: '0.1s' }} />
+                          <div className="eq-bar w-1" style={{ background: set.color, animationDelay: '0.2s' }} />
+                        </div>
+                      ) : (
+                        <Play size={20} fill={set.color} />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-bold text-[1rem] mb-1 transition-colors duration-300" style={{ color: playingSet === idx ? set.color : '#fff' }}>{set.title}</div>
+                      <div className="text-[0.85rem] text-[#666] flex gap-[12px]">
+                        <span>{set.duration}</span>
+                        <span>•</span>
+                        <span>{set.plays} reproducciones</span>
+                      </div>
+                    </div>
+                    <ChevronRight size={20} color="#444" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="hidden md:block relative">
+              <div className="rounded-[24px] overflow-hidden border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+                <img src={consolaCloseup} alt="Setup" className="w-full block" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#03030ccc] to-transparent flex items-end p-[30px]">
+                  <div>
+                    <div className="inline-flex items-center gap-[8px] bg-[#00f2fe26] border border-[#00f2fe66] px-3.5 py-1.5 rounded-full mb-[10px] text-[var(--color-brand-cyan)] text-[0.8rem] font-bold">
+                      <Zap size={12} /> LIVE MIXING
+                    </div>
+                    <div className="text-[1.3rem] font-bold text-white">Consolas Denon Prime 4</div>
+                    <div className="text-[#888] text-[0.9rem]">Mezcla totalmente en vivo</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="absolute -top-[20px] -right-[20px] w-[100px] h-[100px] rounded-[20px] bg-gradient-to-br from-[var(--color-brand-pink)] to-[#bd00ff] opacity-80 blur-[30px] -z-10" />
+            </div>
+          </div>
+        </div>
+
+        <GoogleReviews />
+
+        {/* SERVICIOS MODULARIZADOS */}
+        <ServicesSection />
+      </div>
+      
+      <Footer />
     </div>
   );
 }

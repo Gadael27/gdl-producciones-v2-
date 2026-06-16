@@ -13,6 +13,7 @@ const ReservaFallida = React.lazy(() => import('./pages/ReservaFallida'));
 const TerminosCondiciones = React.lazy(() => import('./pages/TerminosCondiciones'));
 const PoliticasCancelacion = React.lazy(() => import('./pages/PoliticasCancelacion'));
 const Paquetes = React.lazy(() => import('./pages/Paquetes'));
+const Contacto = React.lazy(() => import('./pages/Contacto'));
 
 // A simple loading spinner component to show while the chunk downloads
 function LoadingScreen() {
@@ -58,6 +59,7 @@ function App() {
               <Route path="/reserva-fallida" element={<ReservaFallida />} />
               <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />
               <Route path="/politicas-cancelacion" element={<PoliticasCancelacion />} />
+              <Route path="/contacto" element={<Contacto />} />
             </Routes>
           </Suspense>
         </main>

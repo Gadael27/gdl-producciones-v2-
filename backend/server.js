@@ -56,6 +56,41 @@ const client = new MercadoPagoConfig({
 });
 
 // =========================================================================
+// 🛣️ ENDPOINT: GUARDAR MENSAJE DE CONTACTO (PÚBLICO)
+// =========================================================================
+app.post('/api/contacto', async (req, res) => {
+  try {
+    const { nombre, email, telefono, tipoEvento, fecha, mensaje } = req.body;
+    
+    if (!nombre || !telefono || !mensaje) {
+      return res.status(400).json({ success: false, error: 'Faltan campos obligatorios' });
+    }
+
+    const cleanNombre = validator.escape(validator.trim(String(nombre)));
+    const cleanEmail = email ? validator.normalizeEmail(validator.trim(String(email))) : '';
+    const cleanTelefono = validator.escape(validator.trim(String(telefono)));
+    const cleanMensaje = validator.escape(validator.trim(String(mensaje)));
+
+    const nuevoContacto = {
+      nombre: cleanNombre,
+      email: cleanEmail,
+      telefono: cleanTelefono,
+      tipoEvento: validator.escape(validator.trim(String(tipoEvento || ''))),
+      fecha: validator.escape(validator.trim(String(fecha || ''))),
+      mensaje: cleanMensaje,
+      status: 'Pendiente',
+      fechaRegistro: new Date().toISOString()
+    };
+
+    const docRef = await db.collection('mensajes_contacto').add(nuevoContacto);
+    res.json({ success: true, id: docRef.id });
+  } catch (error) {
+    console.error("Error al guardar contacto:", error);
+    res.status(500).json({ success: false, error: 'Error del servidor al procesar el contacto' });
+  }
+});
+
+// =========================================================================
 // 🛣️ ENDPOINT: GUARDAR RESERVACIONES (PÚBLICO)
 // =========================================================================
 app.post('/api/reservaciones', async (req, res) => {
@@ -331,7 +366,7 @@ app.post('/api/mercadopago/webhook', async (req, res) => {
 // =========================================================================
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-app.get('*', (req, res) => {
+app.get(/(.*)/, (req, res) => {
   if (!req.path.startsWith('/api')) {
     res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
   }

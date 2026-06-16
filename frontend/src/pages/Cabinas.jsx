@@ -221,7 +221,7 @@ export default function CompraCabina() {
   }, [isVisible]);
 
   return (
-    <div className="bg-gradient-to-br from-[#03030c] to-[#0a0a1a] min-h-screen text-white pt-20 font-body overflow-x-hidden">
+    <div className="bg-gradient-to-br from-[#03030c] to-[#0a0a1a] min-h-screen text-white pt-20 font-body overflow-x-hidden select-none">
       <Helmet>
         <title>Compra tu Mesa DJ | GDL Producciones</title>
         <meta name="description" content="Catálogo de mesas y cabinas DJ profesionales hechas a medida. Diseños exclusivos con materiales premium e iluminación LED. Envíos a todo México." />

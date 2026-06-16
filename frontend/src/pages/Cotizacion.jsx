@@ -307,7 +307,7 @@ export default function Cotizacion() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4">
                   
                   {/* PAQUETE BASE */}
-                  <div onClick={() => handlePackageSelect('Base')} className={`p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 relative flex flex-col ${packageType === 'Base' ? 'border-cyan-400 bg-cyan-400/10 shadow-[0_0_20px_rgba(0,242,254,0.15)]' : 'border-transparent bg-white/5 hover:bg-white/10'}`}>
+                  <div onClick={() => handlePackageSelect('Base')} className={`p-5 rounded-2xl border-2 cursor-pointer select-none transition-all duration-300 relative flex flex-col ${packageType === 'Base' ? 'border-cyan-400 bg-cyan-400/10 shadow-[0_0_20px_rgba(0,242,254,0.15)]' : 'border-transparent bg-white/5 hover:bg-white/10'}`}>
                     <div className="text-xl font-black text-cyan-400 mb-1">BASE</div>
                     <div className="text-2xl font-black text-white mb-4">$5,500 <span className="text-xs font-normal text-gray-500">MXN</span></div>
                     <ul className="text-sm text-gray-200 font-medium space-y-3 flex-grow">
@@ -319,7 +319,7 @@ export default function Cotizacion() {
                   </div>
 
                   {/* PAQUETE PRO */}
-                  <div onClick={() => handlePackageSelect('Pro')} className={`p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 relative flex flex-col ${packageType === 'Pro' ? 'border-pink-500 bg-pink-500/10 shadow-[0_0_25px_rgba(255,0,127,0.2)]' : 'border-transparent bg-white/5 hover:bg-white/10'}`}>
+                  <div onClick={() => handlePackageSelect('Pro')} className={`p-5 rounded-2xl border-2 cursor-pointer select-none transition-all duration-300 relative flex flex-col ${packageType === 'Pro' ? 'border-pink-500 bg-pink-500/10 shadow-[0_0_25px_rgba(255,0,127,0.2)]' : 'border-transparent bg-white/5 hover:bg-white/10'}`}>
                     <div className="absolute top-0 right-0 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-[9px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">
                       Nuevo
                     </div>
@@ -334,7 +334,7 @@ export default function Cotizacion() {
                   </div>
 
                   {/* PAQUETE PREMIUM MEJORADO */}
-                  <div onClick={() => handlePackageSelect('Premium')} className={`p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col ${packageType === 'Premium' ? 'border-yellow-400 bg-yellow-400/10 shadow-[0_0_25px_rgba(250,204,21,0.2)]' : 'border-white/10 bg-gradient-to-br from-yellow-400/5 to-amber-600/5 hover:border-yellow-400/50'}`}>
+                  <div onClick={() => handlePackageSelect('Premium')} className={`p-5 rounded-2xl border-2 cursor-pointer select-none transition-all duration-300 relative overflow-hidden flex flex-col ${packageType === 'Premium' ? 'border-yellow-400 bg-yellow-400/10 shadow-[0_0_25px_rgba(250,204,21,0.2)]' : 'border-white/10 bg-gradient-to-br from-yellow-400/5 to-amber-600/5 hover:border-yellow-400/50'}`}>
                     {/* Badge Más Popular */}
                     <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-400 to-amber-500 text-black text-[9px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">
                       Más Popular
@@ -361,7 +361,7 @@ export default function Cotizacion() {
                       type="button" 
                       onClick={() => setExtraHours(h)} 
                       disabled={packageType === 'Premium' && h !== 2}
-                      className={`flex-1 py-3 rounded-xl border-2 transition-all ${
+                      className={`flex-1 py-3 rounded-xl border-2 select-none transition-all ${
                         extraHours === h ? 'border-yellow-400 bg-yellow-400/10 shadow-[0_0_15px_rgba(250,204,21,0.2)]' : 
                         packageType === 'Premium' && h !== 2 ? 'opacity-30 cursor-not-allowed border-transparent bg-white/5' : 
                         'border-transparent bg-white/5 hover:bg-white/10'

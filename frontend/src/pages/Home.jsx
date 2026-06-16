@@ -79,7 +79,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="bg-[#03030c] min-h-screen text-white font-body overflow-x-hidden relative">
+    <div className="bg-[#03030c] min-h-screen text-white font-body overflow-x-hidden relative select-none">
       <Helmet>
         <title>Gustavo Delgadillo - DJ en CDMX y Todo México | Audio Profesional</title>
         <meta name="description" content="Contrata al mejor DJ para tu evento de música, boda o fiesta corporativa. Servicio de sonido, iluminación y renta de cabinas DJ en CDMX, Estado de México y foráneos." />
@@ -130,38 +130,35 @@ export default function Home() {
           <div className="text-center md:text-left flex flex-col items-center md:items-start">
             <span className="sr-only">Gustavo Delgadillo - DJ de eventos de música y Sonido Profesional</span>
 
-            <h2 className="font-cyber text-[2.5rem] mb-4 text-[var(--color-brand-cyan)] tracking-wider uppercase leading-tight">
-              DJ GUSTAVO DELGADILLO
-            </h2>
 
-            <div className="inline-flex items-center gap-2.5 bg-[#ff007f1a] border border-[#ff007f4d] px-4 py-2 rounded-full mb-6 text-white text-[0.75rem] font-bold tracking-wider backdrop-blur-md">
+
+            <div className="inline-flex items-center gap-2.5 bg-[#ff007f1a] border border-[#ff007f4d] px-4 py-2 rounded-full mb-6 text-white text-[0.75rem] font-bold tracking-wider backdrop-blur-md select-none">
               <Sparkles size={12} color="var(--color-brand-yellow)" /> FORMATO ABIERTO • MEZCLA EN VIVO
             </div>
 
-            <h1 className="font-cyber text-[5.5rem] m-0 leading-[0.95] text-white drop-shadow-[0_0_40px_rgba(255,0,127,0.5)] cursor-default glitch-hover">
-              LA FIESTA<br />
-              <span className="text-[var(--color-brand-pink)]">NO PARA</span>
+            <h1 className="font-cyber m-0 leading-[1.1] drop-shadow-[0_0_40px_rgba(255,0,127,0.5)] cursor-default select-none glitch-hover flex flex-wrap items-center justify-center md:justify-start gap-4 text-[3.5rem] md:text-[5rem] lg:text-[6rem] w-full">
+              <span className="text-[var(--color-brand-pink)] whitespace-nowrap">SERVICIO DE</span>
+              <span className="text-[var(--color-brand-cyan)] whitespace-nowrap">DJ</span>
             </h1>
 
-            <p className="text-[1.1rem] text-[#ccc] max-w-[500px] my-6 leading-relaxed font-light mx-auto md:mx-0">
-              Bodas, XV años y eventos corporativos que nadie olvida. 
-              El mejor sonido e iluminación robótica sincronizada para tu evento de música.
+            <p className="text-[1.1rem] text-[#ccc] max-w-[500px] my-6 leading-relaxed font-light mx-auto md:mx-0 select-none">
+              No damos "Play" a una lista, <strong className="text-white font-bold">creamos atmósferas</strong>. Audio lineal de alta gama, iluminación robótica y mezcla 100% en vivo para que tu boda o XV años reviente la pista.
             </p>
 
             <div className="flex gap-4 flex-wrap justify-center md:justify-start">
-              <button onClick={() => irACotizar('Base')} className="bg-gradient-to-br from-[var(--color-brand-pink)] to-[#bd00ff] text-white border-none px-9 py-[18px] rounded-full text-[1.1rem] font-extrabold cursor-pointer inline-flex items-center gap-2.5 shadow-[0_10px_30px_rgba(255,0,127,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(255,0,127,0.6)] tracking-wider">
+              <button onClick={() => irACotizar('Base')} className="bg-gradient-to-br from-[var(--color-brand-pink)] to-[#bd00ff] text-white border-none px-9 py-[18px] rounded-full text-[1.1rem] font-extrabold cursor-pointer select-none inline-flex items-center gap-2.5 shadow-[0_10px_30px_rgba(255,0,127,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(255,0,127,0.6)] tracking-wider">
                 COTIZAR MI EVENTO <ArrowRight size={20} />
               </button>
               
               <button 
                 onClick={abrirWhatsApp}
-                className="bg-white/5 text-white border border-white/20 px-9 py-[18px] rounded-full text-[1.1rem] font-semibold no-underline inline-flex items-center gap-2.5 backdrop-blur-md transition-all duration-300 cursor-pointer hover:bg-white/10 hover:border-white">
+                className="bg-white/5 text-white border border-white/20 px-9 py-[18px] rounded-full text-[1.1rem] font-semibold no-underline inline-flex select-none items-center gap-2.5 backdrop-blur-md transition-all duration-300 cursor-pointer hover:bg-white/10 hover:border-white">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                 WHATSAPP
               </button>
             </div>
 
-            <div className="mt-10 flex gap-8 items-center justify-center md:justify-start">
+            <div className="mt-10 flex gap-8 items-center justify-center md:justify-start select-none">
               <div className="flex gap-1 h-8 items-end">
                 {[...Array(5)].map((_, i) => (
                   <div key={i} className="eq-bar h-full" />
@@ -183,12 +180,12 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="absolute top-5 right-0 bg-[#07071c]/80 backdrop-blur-md border border-[var(--color-brand-cyan)]/30 rounded-2xl px-5 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+            <div className="absolute top-5 right-0 bg-[#07071c]/80 backdrop-blur-md border border-[var(--color-brand-cyan)]/30 rounded-2xl px-5 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.3)] select-none">
               <div className="text-[1.8rem] font-extrabold text-[var(--color-brand-cyan)]">500+</div>
               <div className="text-[0.8rem] text-[#aaa]">Eventos realizados</div>
             </div>
             
-            <div className="absolute -bottom-10 left-0 bg-[#07071c]/80 backdrop-blur-md border border-[var(--color-brand-pink)]/30 rounded-2xl px-5 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+            <div className="absolute -bottom-10 left-0 bg-[#07071c]/80 backdrop-blur-md border border-[var(--color-brand-pink)]/30 rounded-2xl px-5 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.3)] select-none">
               <div className="text-[1.8rem] font-extrabold text-[var(--color-brand-pink)]">10+</div>
               <div className="text-[0.8rem] text-[#aaa]">Años de experiencia</div>
             </div>
@@ -224,7 +221,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-gradient-to-br from-[#07071c] to-[#0d0d2a] rounded-[28px] p-10 border border-white/5">
             <div className="text-left">
-              <div className="flex items-center gap-[10px] mb-[20px]">
+              <div className="flex items-center gap-[10px] mb-[20px] select-none">
                 <Volume2 size={24} color={genres.find(g => g.id === activeGenre)?.color || 'var(--color-brand-pink)'} />
                 <span className="font-bold text-[0.9rem] tracking-[2px] uppercase" style={{ 
                   color: genres.find(g => g.id === activeGenre)?.color || 'var(--color-brand-pink)',

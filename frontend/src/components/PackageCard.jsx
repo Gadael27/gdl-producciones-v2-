@@ -5,7 +5,7 @@ export default function PackageCard({ service, onReserve }) {
 
   return (
     <div 
-      className={`group ${isPremium ? "shadow-[0_0_60px_rgba(255,0,127,0.2)] hover:shadow-[0_0_80px_rgba(255,0,127,0.4)]" : "glass-card hover:shadow-[0_0_50px_rgba(0,242,254,0.3)]"} transition-all duration-500`}
+      className={`group select-none ${isPremium ? "shadow-[0_0_60px_rgba(255,0,127,0.2)] hover:shadow-[0_0_80px_rgba(255,0,127,0.4)]" : "glass-card hover:shadow-[0_0_50px_rgba(0,242,254,0.3)]"} transition-all duration-500`}
       style={{
         padding: '45px 35px', 
         borderRadius: '16px', 

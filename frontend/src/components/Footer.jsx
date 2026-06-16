@@ -7,7 +7,7 @@ export default function Footer() {
       <footer className="border-t border-white/5 pt-15 pb-10 grid grid-cols-1 md:grid-cols-5 gap-10 items-start px-4 md:px-8 max-w-7xl mx-auto w-full">
         
         <div className="md:col-span-2">
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center gap-3 mb-5 select-none">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-brand-pink)] to-[var(--color-brand-cyan)] flex items-center justify-center">
               <Headphones size={20} color="#fff" />
             </div>
@@ -60,7 +60,7 @@ export default function Footer() {
         </div>
       </footer>
 
-      <div className="text-center py-8 border-t border-white/5">
+      <div className="text-center py-8 border-t border-white/5 select-none">
         <p className="text-[#444] text-[0.85rem] flex items-center justify-center gap-2 m-0">
           <ShieldCheck size={16} color="#25d366" /> 
           Pagos seguros • Leads protegidos en Firebase Firestore • GD Producciones © {new Date().getFullYear()}

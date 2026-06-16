@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Store, BookOpen, Home, Menu, X, Package } from 'lucide-react';
+import { Calendar, Store, BookOpen, Home, Menu, X, Package, Phone } from 'lucide-react';
 
 // Importamos el logo oficial desde assets
 import miLogoOfficial from '../assets/Logo.jpeg';
@@ -55,6 +55,7 @@ export default function Navbar() {
     { id: 'paquetes', label: 'Paquetes', icon: <Package size={15} />, route: '/paquetes', color: 'text-brand-cyan', hex: 'var(--color-brand-cyan)', glow: 'rgba(0,242,254,0.4)' },
     { id: 'cabina', label: 'Compra tu Mesa', icon: <Store size={15} />, route: '/compra-tu-cabina', color: 'text-brand-yellow', hex: 'var(--color-brand-yellow)', glow: 'rgba(255,235,59,0.4)' },
     { id: 'blog', label: 'Blog GD', icon: <BookOpen size={15} />, route: '/blog', color: 'text-brand-pink', hex: 'var(--color-brand-pink)', glow: 'rgba(255,0,127,0.4)' },
+    { id: 'contacto', label: 'Contacto', icon: <Phone size={15} />, route: '/contacto', color: 'text-brand-cyan', hex: 'var(--color-brand-cyan)', glow: 'rgba(0,242,254,0.4)' },
   ];
 
   return (
@@ -84,7 +85,7 @@ export default function Navbar() {
           </div>
 
           {/* Logo con efecto flotante y glow */}
-          <div onClick={() => navegar('/')} className="flex items-center gap-3 cursor-pointer transition-all duration-300 [animation:float_3s_ease-in-out_infinite] hover:[animation:none] hover:scale-105">
+          <div onClick={() => navegar('/')} className="flex items-center gap-3 cursor-pointer select-none transition-all duration-300 [animation:float_3s_ease-in-out_infinite] hover:[animation:none] hover:scale-105">
             <div className={`rounded-full overflow-hidden border-2 border-brand-cyan bg-white p-[2px] flex items-center justify-center transition-all duration-300 shadow-[0_0_20px_rgba(0,242,254,0.4),0_0_40px_rgba(0,242,254,0.1)] ${isMobile ? 'w-9 h-9' : 'w-10 h-10'}`}>
               <img src={miLogoOfficial} alt="Logo GD" className="w-full h-full object-contain rounded-full" />
             </div>
@@ -115,7 +116,7 @@ export default function Navbar() {
                   onClick={() => navegar(link.route)}
                   onMouseEnter={() => setHoveredLink(link.id)}
                   onMouseLeave={() => setHoveredLink(null)}
-                  className={`nav-link-item flex items-center gap-2 font-body text-[1.1rem] font-extrabold px-4 py-2 rounded-full transition-all duration-300 uppercase tracking-widest cursor-pointer ${hoveredLink === link.id ? link.color : 'text-gray-200 hover:text-white'}`}
+                  className={`nav-link-item flex items-center gap-2 font-body text-[0.85rem] font-extrabold px-4 py-2 rounded-full transition-all duration-300 uppercase tracking-widest cursor-pointer select-none ${hoveredLink === link.id ? link.color : 'text-gray-200 hover:text-white'}`}
                   style={{ color: hoveredLink === link.id ? link.hex : '' }}
                 >
                   <span style={{ 
@@ -137,7 +138,7 @@ export default function Navbar() {
             {/* Botón RESERVAR con efecto neón pulsante */}
             <button 
               onClick={() => navegar('/cotizacion')} 
-              className={`relative overflow-hidden bg-gradient-to-br from-brand-pink to-[#bd00ff] border-none rounded-full text-white cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 font-extrabold font-body tracking-widest uppercase shadow-[0_4px_20px_rgba(255,0,127,0.4)] hover:-translate-y-[2px] hover:scale-105 hover:shadow-[0_8px_30px_rgba(255,0,127,0.6),0_0_40px_rgba(189,0,255,0.3)] ${isMobile ? 'px-4 py-2 text-[0.75rem]' : 'px-6 py-2.5 text-[0.85rem]'}`}
+              className={`relative overflow-hidden bg-gradient-to-br from-brand-pink to-[#bd00ff] border-none rounded-full text-white cursor-pointer select-none flex items-center justify-center gap-2 transition-all duration-300 font-extrabold font-body tracking-widest uppercase shadow-[0_4px_20px_rgba(255,0,127,0.4)] hover:-translate-y-[2px] hover:scale-105 hover:shadow-[0_8px_30px_rgba(255,0,127,0.6),0_0_40px_rgba(189,0,255,0.3)] ${isMobile ? 'px-4 py-2 text-[0.75rem]' : 'px-6 py-2.5 text-[0.85rem]'}`}
             >
               <Calendar size={isMobile ? 14 : 15} className="[animation:neonFlicker_2s_infinite]" />
               {isMobile ? 'RESERVAR' : 'RESERVAR FECHA'}
@@ -162,7 +163,7 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="mobile-menu-enter fixed top-[56px] left-0 w-full h-[calc(100vh-56px)] bg-brand-dark/98 z-[999] px-6 py-8 flex flex-col gap-2 font-body border-t border-brand-cyan/20 box-border backdrop-blur-xl">
           {/* Header del menú móvil */}
-          <div className="flex items-center gap-3 mb-5 pb-5 border-b border-white/5">
+          <div className="flex items-center gap-3 mb-5 pb-5 border-b border-white/5 select-none">
             <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-brand-cyan bg-white p-[2px]">
               <img src={miLogoOfficial} alt="Logo" className="w-full h-full object-contain rounded-full" />
             </div>
@@ -176,7 +177,7 @@ export default function Navbar() {
             <button 
               key={link.id}
               onClick={() => navegar(link.route)}
-              className="bg-transparent border-none text-white flex items-center gap-4 text-left cursor-pointer px-5 py-4 rounded-2xl text-[1.1rem] font-bold font-body transition-all duration-300 border-l-[3px] border-transparent uppercase tracking-widest hover:pl-7"
+              className="bg-transparent border-none text-white flex items-center gap-4 text-left cursor-pointer select-none px-5 py-4 rounded-2xl text-[1.1rem] font-bold font-body transition-all duration-300 border-l-[3px] border-transparent uppercase tracking-widest hover:pl-7"
               style={{
                 '--hover-bg': `linear-gradient(90deg, ${link.hex}15, transparent)`,
                 '--hover-border': link.hex,
@@ -206,7 +207,7 @@ export default function Navbar() {
           {/* Botón de reserva destacado en móvil */}
           <button 
             onClick={() => navegar('/cotizacion')}
-            className="bg-gradient-to-br from-brand-pink to-[#bd00ff] border-none text-white py-4 px-6 rounded-2xl text-[1.1rem] font-extrabold flex items-center justify-center gap-2.5 cursor-pointer shadow-[0_8px_30px_rgba(255,0,127,0.4)] uppercase tracking-[2px] mt-2.5"
+            className="bg-gradient-to-br from-brand-pink to-[#bd00ff] border-none text-white py-4 px-6 rounded-2xl text-[1.1rem] font-extrabold flex items-center justify-center gap-2.5 cursor-pointer select-none shadow-[0_8px_30px_rgba(255,0,127,0.4)] uppercase tracking-[2px] mt-2.5"
           >
             <Calendar size={22} />
             RESERVAR FECHA

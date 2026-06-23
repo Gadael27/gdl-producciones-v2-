@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { ShieldCheck, Receipt, Clock, Mic2 } from 'lucide-react';
 import PackageCard from '../components/PackageCard';
 
 import imgBase from '../assets/IMG_4911.JPG';
@@ -110,6 +111,30 @@ export default function Paquetes() {
         ))}
       </div>
       
+      {/* SECCIÓN DE TRANSPARENCIA / LETRA CHICA */}
+      <div className="max-w-[1200px] mx-auto mt-20 mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 md:px-0">
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
+          <ShieldCheck className="text-brand-pink mb-4" size={32} />
+          <h4 className="text-white font-bold text-lg mb-2">Apartado Seguro</h4>
+          <p className="text-gray-400 text-sm">Bloquea tu fecha con solo el 30% de anticipo. Liquidación 3 días antes del evento.</p>
+        </div>
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
+          <Receipt className="text-brand-cyan mb-4" size={32} />
+          <h4 className="text-white font-bold text-lg mb-2">Precios Netos</h4>
+          <p className="text-gray-400 text-sm">Todos nuestros precios incluyen IVA. Si requieres factura para tu empresa, no hay cargos ocultos.</p>
+        </div>
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
+          <Clock className="text-brand-yellow mb-4" size={32} />
+          <h4 className="text-white font-bold text-lg mb-2">Flexibilidad de Tiempo</h4>
+          <p className="text-gray-400 text-sm">¿La fiesta está muy buena? Hora extra disponible durante el evento por $1,500 MXN.</p>
+        </div>
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
+          <Mic2 className="text-brand-pink mb-4" size={32} />
+          <h4 className="text-white font-bold text-lg mb-2">Todo el Protocolo</h4>
+          <p className="text-gray-400 text-sm">Todos los paquetes incluyen micrófonos para uso de protocolo (ceremonias, brindis o discursos).</p>
+        </div>
+      </div>
+
       <div className="max-w-[800px] mx-auto mt-20 p-8 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 text-center">
         <h3 className="font-cyber text-[2rem] text-brand-cyan mb-4">¿Necesitas algo a la medida?</h3>
         <p className="text-gray-300 mb-6 text-[1.1rem]">

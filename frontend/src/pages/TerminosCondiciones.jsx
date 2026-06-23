@@ -24,34 +24,50 @@ export default function TerminosCondiciones() {
 
         <div className="bg-[#0a0a1a] border border-[#1a1a3e] rounded-3xl p-8 md:p-12 space-y-8 shadow-[0_0_30px_rgba(255,0,127,0.05)] text-sm md:text-base leading-relaxed">
           
-          <div className="bg-brand-yellow/10 border-l-4 border-brand-yellow p-4 rounded-r-lg mb-8">
-            <p className="text-brand-yellow font-bold">Nota:</p>
-            <p className="text-gray-400">Este es un documento temporal (PlaceHolder). Los términos y condiciones oficiales serán proporcionados por GDL Producciones posteriormente.</p>
-          </div>
-
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">1. Aspectos Generales</h2>
-            <p>Al acceder y utilizar el sitio web y los servicios de GDL Producciones, usted acepta estar sujeto a estos términos y condiciones. Si no está de acuerdo con alguna parte de estos términos, no podrá utilizar nuestros servicios.</p>
+            <h2 className="text-xl font-bold text-white mb-4">1. Aspectos Generales y Ámbito de Aplicación</h2>
+            <p>Al acceder, navegar o utilizar la plataforma de cotización y reserva de GDL Producciones, usted (en adelante "El Cliente") acepta estar plenamente sujeto a los presentes Términos y Condiciones. Estos términos rigen la contratación de servicios de DJ, audio, iluminación y efectos especiales (en adelante "El Servicio") proveídos exclusivamente dentro del territorio de la República Mexicana.</p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">2. Reservaciones y Pagos</h2>
-            <p>Las fechas para eventos solo se considerarán bloqueadas y confirmadas una vez que el pago correspondiente (anticipo o liquidación) haya sido acreditado satisfactoriamente a través de nuestros métodos de pago oficiales (Mercado Pago). Las cotizaciones no pagadas no garantizan disponibilidad de fecha.</p>
+            <h2 className="text-xl font-bold text-white mb-4">2. Reservaciones, Anticipos y Pagos</h2>
+            <ul className="list-disc pl-5 space-y-2 text-gray-400">
+              <li><strong>Bloqueo de Fecha:</strong> La fecha y horario del evento solo se considerarán bloqueados, confirmados y garantizados una vez que se haya acreditado el pago del anticipo o la liquidación total a través de nuestra pasarela oficial (Mercado Pago).</li>
+              <li><strong>Cotizaciones:</strong> Las cotizaciones generadas no garantizan disponibilidad de fecha hasta no realizar el pago correspondiente.</li>
+              <li><strong>Liquidación del Saldo:</strong> En caso de haber pagado únicamente el anticipo, el saldo restante deberá liquidarse en su totalidad <strong>el mismo día del evento</strong>, previo al inicio del servicio, ya sea en efectivo o mediante transferencia bancaria. El DJ no comenzará la prestación del servicio si existe un saldo pendiente no aclarado.</li>
+              <li><strong>Moneda:</strong> Todos los precios expresados en la plataforma están en Pesos Mexicanos (MXN).</li>
+            </ul>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">3. Logística del Evento</h2>
-            <p>El cliente es responsable de proveer un espacio adecuado, techado y con acceso a toma de corriente eléctrica estándar a no más de 10 metros del área de montaje. El personal de GDL Producciones se reserva el derecho de no instalar equipo si las condiciones del lugar ponen en riesgo la integridad de los equipos o del personal.</p>
+            <h2 className="text-xl font-bold text-white mb-4">3. Requisitos Logísticos y Espaciales</h2>
+            <p className="mb-3">Para garantizar la excelencia y seguridad del espectáculo, El Cliente se compromete a proporcionar las siguientes condiciones en el recinto del evento:</p>
+            <ul className="list-disc pl-5 space-y-2 text-gray-400">
+              <li><strong>Suministro Eléctrico:</strong> Acceso a al menos una toma de corriente eléctrica estándar (110V-120V) estable, a una distancia no mayor a 10 metros del área designada para el montaje de la cabina.</li>
+              <li><strong>Protección contra Elementos:</strong> Si el evento es en exteriores, el área del equipo deberá estar estrictamente techada (carpa, lona firme o estructura) para proteger los componentes electrónicos contra lluvia, sol directo extremo o humedad.</li>
+              <li><strong>Tiempo de Montaje:</strong> Permitir el acceso al equipo técnico de GDL Producciones al menos 2 a 3 horas antes del inicio oficial del servicio para el montaje y pruebas de sonido.</li>
+            </ul>
+            <p className="mt-3 text-red-400/80 italic text-sm">Nota: El personal de GDL Producciones se reserva el derecho de no instalar o suspender el equipo si las condiciones del lugar representan un riesgo inminente de cortocircuito o daño estructural, sin responsabilidad de reembolso.</p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">4. Propiedad del Equipo</h2>
-            <p>Todo el equipo audiovisual (bocinas, cabinas, iluminación) es propiedad exclusiva de GDL Producciones. Cualquier daño ocasionado al equipo por invitados del evento, riñas o descuidos imputables al cliente será evaluado y el costo de reparación o reposición deberá ser cubierto por el contratante.</p>
+            <h2 className="text-xl font-bold text-white mb-4">4. Responsabilidad y Cuidado del Equipo</h2>
+            <p>Todo el equipo audiovisual, estructuras, cableado y periféricos son propiedad exclusiva de GDL Producciones.</p>
+            <p className="mt-2">El Cliente asume total responsabilidad por cualquier daño, alteración, derrame de líquidos o robo ocasionado al equipo durante el evento que sea imputable a El Cliente, sus invitados, o personal de otros servicios contratados por él (ej. meseros). En caso de siniestro, El Cliente deberá cubrir el costo total de reparación o reposición del equipo afectado en un lapso no mayor a 5 días hábiles.</p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">5. Modificaciones de Servicio</h2>
-            <p>Cualquier solicitud de horas extra el día del evento estará sujeta a disponibilidad del DJ y del recinto, y deberá pagarse en efectivo o transferencia antes de iniciar el bloque adicional.</p>
+            <h2 className="text-xl font-bold text-white mb-4">5. Extensión de Servicios (Horas Extra)</h2>
+            <p>Si durante el desarrollo del evento El Cliente desea prolongar el servicio más allá de las horas previamente contratadas, la extensión estará sujeta a:</p>
+            <ul className="list-disc pl-5 mt-2 space-y-2 text-gray-400">
+              <li>Disponibilidad del personal y del recinto.</li>
+              <li>El pago de la hora u horas extra correspondientes, las cuales deberán ser liquidadas <strong>inmediatamente antes</strong> de comenzar el bloque adicional.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-white mb-4">6. Fuerza Mayor</h2>
+            <p>GDL Producciones no será responsable por la interrupción parcial o total del servicio debido a causas fuera de nuestro control, incluyendo pero no limitado a: fallas eléctricas generales del recinto, desastres naturales, clausuras gubernamentales del salón, o disturbios públicos.</p>
           </section>
 
         </div>

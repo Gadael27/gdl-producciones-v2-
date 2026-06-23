@@ -113,13 +113,22 @@ export default function Admin() {
     setIsAuthenticated(false);
   }
 
+  // ─── ESTADO PAGINACIÓN Y BÚSQUEDA ─────────────────────────
+  const [searchQuery, setSearchQuery] = useState('');
+  const [pageHistory, setPageHistory] = useState([null]); // Historial de cursores (lastId)
+  const [currentPage, setCurrentPage] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+
   // ─── FETCH VENTAS ─────────────────────────────────────
-  async function fetchVentas() {
+  async function fetchVentas(pageIndex = 0, search = searchQuery) {
     setLoading(true);
     try {
-      const response = await fetch('/api/admin/ventas', {
-        headers: getAuthHeaders()
-      });
+      const lastId = pageHistory[pageIndex];
+      let url = `/api/admin/ventas?limit=10`;
+      if (search) url += `&search=${encodeURIComponent(search)}`;
+      if (lastId) url += `&lastId=${lastId}`;
+
+      const response = await fetch(url, { headers: getAuthHeaders() });
 
       if (response.status === 401 || response.status === 403) {
         handleCerrarSesion();
@@ -127,13 +136,46 @@ export default function Admin() {
       }
 
       const resData = await response.json();
-      if (resData.success) setReservaciones(resData.data);
+      if (resData.success) {
+        setReservaciones(resData.data);
+        setHasMore(resData.hasMore);
+        
+        // Si hay más resultados, guardamos el cursor para la siguiente página
+        if (resData.hasMore && resData.data.length > 0) {
+          const newHistory = [...pageHistory];
+          newHistory[pageIndex + 1] = resData.data[resData.data.length - 1].id;
+          setPageHistory(newHistory);
+        }
+      }
     } catch (error) {
       console.error('Error al obtener ventas:', error);
     } finally {
       setLoading(false);
     }
   }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setPageHistory([null]);
+    setCurrentPage(0);
+    fetchVentas(0, searchQuery);
+  };
+
+  const nextPage = () => {
+    if (hasMore) {
+      const next = currentPage + 1;
+      setCurrentPage(next);
+      fetchVentas(next);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 0) {
+      const prev = currentPage - 1;
+      setCurrentPage(prev);
+      fetchVentas(prev);
+    }
+  };
 
   // ─── SUBMIT BLOQUEO MANUAL ─────────────────────────────
   const handleBloquearFecha = async (e) => {
@@ -318,20 +360,36 @@ export default function Admin() {
         {/* ---------------- VENTAS ---------------- */}
         {activeTab === 'ventas' && (
           <div className="animate-fade-in-up">
-            <h1 className="font-['Bangers'] text-4xl text-white tracking-widest mb-6 border-b border-[#1a1a3e] pb-4">AUDITORÍA DE LOGÍSTICA COMERCIAL</h1>
+            <div className="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-6 border-b border-[#1a1a3e] pb-4">
+              <h1 className="font-['Bangers'] text-4xl text-white tracking-widest m-0">AUDITORÍA DE LOGÍSTICA COMERCIAL</h1>
+              
+              <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-auto">
+                <input 
+                  type="text" 
+                  placeholder="Buscar por cliente (ej. Juan)" 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="bg-[#0a0a1a] border border-[#2a2a4e] text-white px-4 py-2 rounded-xl outline-none focus:border-cyan-400 min-w-[250px]"
+                />
+                <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-xl font-bold transition-colors">
+                  Buscar
+                </button>
+                {searchQuery && (
+                  <button type="button" onClick={() => { setSearchQuery(''); setPageHistory([null]); setCurrentPage(0); fetchVentas(0, ''); }} className="bg-[#2a2a4e] hover:bg-[#3a3a5e] text-white px-4 py-2 rounded-xl transition-colors">
+                    Limpiar
+                  </button>
+                )}
+              </form>
+            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               <div className="bg-[#07071c] border border-[#1a1a3e] p-6 rounded-2xl">
-                <span className="text-gray-500 text-xs font-bold block mb-1">COTIZACIONES LEADS</span>
-                <span className="text-3xl font-bold text-yellow-400">{pendientes.length} Registros</span>
+                <span className="text-gray-500 text-xs font-bold block mb-1">PÁGINA ACTUAL</span>
+                <span className="text-3xl font-bold text-yellow-400">{currentPage + 1}</span>
               </div>
-              <div className="bg-[#07071c] border border-[#1a1a3e] p-6 rounded-2xl">
-                <span className="text-gray-500 text-xs font-bold block mb-1">EVENTOS CONFIRMADOS</span>
-                <span className="text-3xl font-bold text-green-400">{pagados.length} Registros</span>
-              </div>
-              <div className="bg-[#07071c] border border-[#1a1a3e] p-6 rounded-2xl lg:col-span-2">
-                <span className="text-gray-500 text-xs font-bold block mb-1">INGRESOS ONLINE TOTALES</span>
-                <span className="text-3xl font-bold text-pink-500">${ingresosPagados.toLocaleString()} MXN</span>
+              <div className="bg-[#07071c] border border-[#1a1a3e] p-6 rounded-2xl lg:col-span-3">
+                <span className="text-gray-500 text-xs font-bold block mb-1">AVISO ADMINISTRATIVO</span>
+                <p className="text-sm text-gray-400">Mostrando hasta 10 registros por página para optimizar la velocidad y memoria del servidor.</p>
               </div>
             </div>
 
@@ -359,6 +417,25 @@ export default function Admin() {
                       )}
                     </tbody>
                   </table>
+                </div>
+                
+                {/* Controles de Paginación */}
+                <div className="bg-[#0a0a1a] border-t border-[#1a1a3e] p-4 flex justify-between items-center">
+                  <button 
+                    onClick={prevPage} 
+                    disabled={currentPage === 0}
+                    className={`px-4 py-2 rounded-lg font-bold transition-all ${currentPage === 0 ? 'bg-gray-800 text-gray-600 cursor-not-allowed' : 'bg-[#2a2a4e] hover:bg-[#3a3a5e] text-white'}`}
+                  >
+                    ← Anterior
+                  </button>
+                  <span className="text-gray-400 text-sm">Página {currentPage + 1}</span>
+                  <button 
+                    onClick={nextPage} 
+                    disabled={!hasMore}
+                    className={`px-4 py-2 rounded-lg font-bold transition-all ${!hasMore ? 'bg-gray-800 text-gray-600 cursor-not-allowed' : 'bg-[#2a2a4e] hover:bg-[#3a3a5e] text-white'}`}
+                  >
+                    Siguiente →
+                  </button>
                 </div>
               </div>
             )}

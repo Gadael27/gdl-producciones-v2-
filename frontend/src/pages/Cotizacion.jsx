@@ -3,43 +3,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { es } from 'date-fns/locale';
 import { addDays, setHours, setMinutes } from 'date-fns';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { 
   ShieldCheck, CreditCard, Clock, CheckCircle, AlertTriangle, 
   MapPin, User, Phone, Mail, Calendar, Users, Home, 
   Package, Sparkles, MessageSquare, Check
 } from 'lucide-react';
-
-// ==========================================
-// COMPONENTE UI: INPUT FIELD (TAILWIND)
-// ==========================================
-const InputField = ({ icon: Icon, label, type = "text", placeholder, value, error, touched, onChange, onBlur, children, ...props }) => (
-  <div className="mb-4">
-    <label className="text-gray-300 text-sm flex items-center gap-2 mb-2 font-semibold uppercase tracking-wide">
-      <Icon size={14} className={error && touched ? "text-red-500" : "text-cyan-400"} />
-      {label} <span className="text-pink-500">*</span>
-    </label>
-    {children || (
-      <input
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        className={`w-full p-3 md:p-4 rounded-xl bg-[#0a0a1a] text-white text-base outline-none transition-all duration-300 border ${
-          error && touched 
-            ? 'border-red-500 shadow-[0_0_10px_rgba(255,68,68,0.2)]' 
-            : 'border-[#2a2a4e] focus:border-cyan-400 focus:shadow-[0_0_15px_rgba(0,242,254,0.1)]'
-        }`}
-        {...props}
-      />
-    )}
-    {error && touched && (
-      <div className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
-        <AlertTriangle size={12} /> {error}
-      </div>
-    )}
-  </div>
-);
+import InputField from '../components/InputField';
 
 // ==========================================
 // COMPONENTE PRINCIPAL
@@ -244,11 +214,17 @@ export default function Cotizacion() {
     e.preventDefault();
     if (!isFormValid()) return;
 
+    const phoneNumber = parsePhoneNumberFromString(formData.telefono, 'MX');
+    if (!phoneNumber || !phoneNumber.isValid()) {
+      alert('Número de teléfono inválido. Asegúrate de incluir la lada correcta.');
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:5000/api/reservaciones', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, direccion: `${formData.calleYNumero}, Col. ${formData.colonia}, Alc/Mun ${formData.alcaldia}, CP ${formData.codigoPostal}`, totalEvent, paymentType, montoPagar })
+        body: JSON.stringify({ ...formData, telefono: phoneNumber.format('E.164'), direccion: `${formData.calleYNumero}, Col. ${formData.colonia}, Alc/Mun ${formData.alcaldia}, CP ${formData.codigoPostal}`, totalEvent, paymentType, montoPagar })
       });
       const data = await response.json();
       if (data.success && data.init_point) {
@@ -660,9 +636,14 @@ export default function Cotizacion() {
               )}
 
 
-              <div className="mt-5 text-center flex items-center justify-center gap-2 text-gray-500 text-xs">
-                <ShieldCheck size={14} className="text-green-500" />
-                Pago seguro procesado por Mercado Pago
+              <div className="mt-5 flex flex-col items-center justify-center gap-2 text-gray-500 text-xs">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck size={14} className="text-green-500" />
+                  Pago seguro procesado por Mercado Pago
+                </div>
+                <div className="text-center text-brand-cyan/70 mt-2 p-2 bg-brand-cyan/5 border border-brand-cyan/10 rounded">
+                  Servicio exclusivo para la República Mexicana. Precios en MXN.
+                </div>
               </div>
             </div>
           </div>

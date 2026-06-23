@@ -12,6 +12,7 @@
   "dependencies": {
     "@tryghost/content-api": "^1.12.9",
     "date-fns": "^4.4.0",
+    "libphonenumber-js": "^1.13.7",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",
     "react-datepicker": "^9.1.0",

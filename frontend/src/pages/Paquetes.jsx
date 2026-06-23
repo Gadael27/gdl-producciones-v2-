@@ -21,7 +21,7 @@ export default function Paquetes() {
     {
       id: 'Base',
       name: 'Paquete Esencial',
-      price: '$5,500',
+      price: '$5,500 MXN',
       color: '#00f2fe',
       image: imgBase,
       features: [
@@ -36,7 +36,7 @@ export default function Paquetes() {
     {
       id: 'Pro',
       name: 'Paquete Pro',
-      price: '$7,500',
+      price: '$7,500 MXN',
       color: '#ff007f',
       image: imgPro,
       features: [
@@ -52,7 +52,7 @@ export default function Paquetes() {
     {
       id: 'Premium',
       name: 'Experiencia Premium',
-      price: '$9,900',
+      price: '$9,900 MXN',
       color: '#ffeb3b',
       image: imgPremium,
       features: [
@@ -74,8 +74,11 @@ export default function Paquetes() {
         <h1 className="font-cyber text-[3.5rem] md:text-[5rem] text-white leading-tight mb-6 mt-8">
           NUESTROS <span className="text-brand-pink drop-shadow-[0_0_20px_rgba(255,0,127,0.5)]">PAQUETES</span>
         </h1>
-        <p className="text-gray-400 text-[1.1rem] md:text-[1.3rem] max-w-3xl mx-auto leading-relaxed">
+        <p className="text-gray-400 text-[1.1rem] md:text-[1.3rem] max-w-3xl mx-auto leading-relaxed mb-4">
           Diseñados para adaptarse al tamaño de tu evento y a tus expectativas. Desde una fiesta íntima hasta la boda de tus sueños con producción audiovisual completa.
+        </p>
+        <p className="text-brand-cyan/70 text-sm max-w-2xl mx-auto border border-brand-cyan/20 bg-brand-cyan/5 p-3 rounded-lg">
+          ⚠️ Precios expresados en Pesos Mexicanos (MXN). Servicio disponible únicamente dentro de la República Mexicana.
         </p>
       </div>
 
